@@ -2,8 +2,8 @@ v2
 -	Define UI buttons (stack/queue toggle)
 v1
 -	Implement config (capacity limit)
--	Save and clear trash item on player save
 -	Implement item extractions
+-	Pull trash items from trash slot directly into trash
 
 
 -	Animate hover fx when allowed to withdraw items

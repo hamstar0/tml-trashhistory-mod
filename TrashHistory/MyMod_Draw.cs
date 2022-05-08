@@ -62,7 +62,7 @@ namespace TrashHistory {
 
 			Rectangle area = TrashHistoryMod.GetTrashSlotScreenArea_Local();
 
-			string text = $"{trashHistCount} stored";
+			string text = $"{trashHistCount} items";
 
 			Vector2 dim = Main.fontMouseText.MeasureString( text );
 
@@ -80,11 +80,11 @@ namespace TrashHistory {
 				font: Main.fontMouseText,
 				text: text,
 				x: area.Center.X,
-				y: area.Top + 12,
+				y: area.Top + 10,
 				textColor: new Color( 255, 224, 96 ),
 				borderColor: Color.Black,
 				origin: dim * 0.5f,
-				scale: canHoverAlert ? 0.8f : 0.75f
+				scale: canHoverAlert ? 0.7f : 0.6f
 			);
 		}
 	}

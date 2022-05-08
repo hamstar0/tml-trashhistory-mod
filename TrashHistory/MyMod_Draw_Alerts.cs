@@ -57,7 +57,7 @@ namespace TrashHistory {
 				text: "+1",
 				x: scrX,
 				y: scrY,
-				textColor: new Color(255, 224, 96) * intensityPercent,
+				textColor: Color.White * intensityPercent,
 				borderColor: Color.Black * intensityPercent,
 				origin: dim * 0.5f,
 				scale: 1f

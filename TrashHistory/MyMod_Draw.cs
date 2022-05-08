@@ -49,7 +49,7 @@ namespace TrashHistory {
 		////////////////
 
 		private void DrawTrashInfo() {
-
+			// TODO
 		}
 	}
 }

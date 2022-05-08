@@ -52,9 +52,11 @@ namespace TrashHistory {
 		////////////////
 
 		private void AttemptTrashGrab() {
+Main.NewText( "Attempted to extract 1 item from trash" );
 		}
 
 		private void AttemptTrashGrabBulk() {
+Main.NewText( "Attempted to extract several items from trash" );
 		}
 	}
 }

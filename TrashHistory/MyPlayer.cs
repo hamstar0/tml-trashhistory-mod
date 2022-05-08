@@ -11,7 +11,7 @@ namespace TrashHistory {
 
 		////////////////
 
-		public List<Item> _TrashHistory = new List<Item>();
+		private List<Item> _TrashHistory = new List<Item>();
 
 		////
 
@@ -110,7 +110,7 @@ namespace TrashHistory {
 			if( prevTrashItemActive ) {
 				if( currTrashItemActive ) {
 					if( this.player.trashItem != this.LastKnownTrashItem ) {
-Main.NewText( "trashed a perfectly good "+this.LastKnownTrashItem.HoverName );
+Main.NewText( $"trashed a perfectly good {this.LastKnownTrashItem.HoverName}" );
 						this._TrashHistory.Add( this.LastKnownTrashItem );
 
 						this.LastKnownTrashItem = this.player.trashItem;

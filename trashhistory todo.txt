@@ -1,0 +1,13 @@
+v2
+-	Define UI buttons (stack/queue toggle)
+v1
+-	Implement config (capacity limit)
+-	Implement click behaviors
+-	Display trash item count
+-	Draw hover icon when allowed to withdraw items
+
+
+-	Implement trash item rememberance
+-	Implement trash item memory
+-	Implement left click, right-click detect on trash slot
+-	Define mod

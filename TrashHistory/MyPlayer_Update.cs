@@ -22,36 +22,17 @@ namespace TrashHistory {
 		////////////////
 
 		private void UpdateTrashState() {
-			bool prevTrashItemActive = this.LastKnownTrashItem?.active == true && !this.LastKnownTrashItem.IsAir;
-			bool currTrashItemActive = this.player.trashItem?.active == true && !this.player.trashItem.IsAir;
+			if( this.player.trashItem?.active == true && !this.player.trashItem.IsAir ) {
+Main.NewText( "Trashed a perfectly good " + this.player.trashItem.HoverName );
+				this._TrashHistory.Add( this.player.trashItem );
 
-			if( this.LastKnownTrashItem == null ) {
-				if( currTrashItemActive ) {
-					this.LastKnownTrashItem = this.player.trashItem;
+				//
 
-					prevTrashItemActive = true;
-				}
-			} else {
-				if( !currTrashItemActive ) {
-					this.LastKnownTrashItem = null;
+				TrashHistoryMod.Instance.AddTrashAlertPopup_Local( this.player.trashItem );
 
-					prevTrashItemActive = false;
-				}
-			}
+				//
 
-			//
-
-			if( prevTrashItemActive ) {
-				if( currTrashItemActive ) {
-					if( this.player.trashItem != this.LastKnownTrashItem ) {
-Main.NewText( "Trashed a perfectly good "+this.LastKnownTrashItem.HoverName );
-						this._TrashHistory.Add( this.LastKnownTrashItem );
-
-						TrashHistoryMod.Instance.AddTrashAlertPopup_Local( this.LastKnownTrashItem );
-
-						this.LastKnownTrashItem = this.player.trashItem;
-					}
-				}
+				this.player.trashItem = new Item();
 			}
 		}
 	}

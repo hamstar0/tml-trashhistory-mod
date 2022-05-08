@@ -13,10 +13,6 @@ namespace TrashHistory {
 
 		private List<Item> _TrashHistory = new List<Item>();
 
-		////
-
-		private Item LastKnownTrashItem = null;
-
 
 
 		////////////////
@@ -27,7 +23,6 @@ namespace TrashHistory {
 
 		public override void Initialize() {
 			this._TrashHistory.Clear();
-			this.LastKnownTrashItem = null;
 		}
 
 

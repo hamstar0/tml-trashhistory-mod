@@ -29,9 +29,10 @@ namespace TrashHistory {
 
 					//
 
-					this.HandleInterface();
+					this.HandleInterface_Local();
 
-					this.DrawTrashInfo();
+					this.DrawTrashStats_If();
+					this.DrawTrashAlertPopups();
 
 					//
 
@@ -48,8 +49,43 @@ namespace TrashHistory {
 
 		////////////////
 
-		private void DrawTrashInfo() {
-			// TODO
+		private void DrawTrashStats_If() {
+			if( !Main.playerInventory ) {
+				return;
+			}
+
+			//
+
+			var myplayer = Main.LocalPlayer.GetModPlayer<TrashHistoryPlayer>();
+
+			int trashHistCount = myplayer.TrashHistory.Count;
+
+			Rectangle area = TrashHistoryMod.GetTrashSlotScreenArea_Local();
+
+			string text = $"{trashHistCount} stored";
+
+			Vector2 dim = Main.fontMouseText.MeasureString( text );
+
+			//
+
+			bool canHoverAlert = trashHistCount > 0
+				&& area.Contains( Main.mouseX, Main.mouseY )
+				&& (Main.mouseItem?.active != true || Main.mouseItem.IsAir)
+				&& (Main.LocalPlayer.trashItem?.active != true || Main.LocalPlayer.trashItem.IsAir);
+
+			//
+
+			Utils.DrawBorderStringFourWay(
+				sb: Main.spriteBatch,
+				font: Main.fontMouseText,
+				text: text,
+				x: area.Center.X,
+				y: area.Top + 12,
+				textColor: new Color( 255, 224, 96 ),
+				borderColor: Color.Black,
+				origin: dim * 0.5f,
+				scale: canHoverAlert ? 0.8f : 0.75f
+			);
 		}
 	}
 }

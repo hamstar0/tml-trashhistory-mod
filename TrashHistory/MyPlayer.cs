@@ -91,7 +91,7 @@ namespace TrashHistory {
 			bool prevTrashItemActive = this.LastKnownTrashItem?.active == true && !this.LastKnownTrashItem.IsAir;
 			bool currTrashItemActive = this.player.trashItem?.active == true && !this.player.trashItem.IsAir;
 
-			if( !prevTrashItemActive ) {
+			if( this.LastKnownTrashItem == null ) {
 				if( currTrashItemActive ) {
 					this.LastKnownTrashItem = this.player.trashItem;
 
@@ -110,13 +110,26 @@ namespace TrashHistory {
 			if( prevTrashItemActive ) {
 				if( currTrashItemActive ) {
 					if( this.player.trashItem != this.LastKnownTrashItem ) {
-Main.NewText( $"trashed a perfectly good {this.LastKnownTrashItem.HoverName}" );
+Main.NewText( "Trashed a perfectly good "+this.LastKnownTrashItem.HoverName );
 						this._TrashHistory.Add( this.LastKnownTrashItem );
+
+						TrashHistoryMod.Instance.AddTrashAlertPopup_Local( this.LastKnownTrashItem );
 
 						this.LastKnownTrashItem = this.player.trashItem;
 					}
 				}
 			}
+		}
+
+
+		////////////////
+
+		internal void AttemptTrashGrab() {
+Main.NewText( "Attempted to extract 1 item from trash" );
+		}
+
+		internal void AttemptTrashGrabBulk() {
+Main.NewText( "Attempted to extract several items from trash" );
 		}
 	}
 }

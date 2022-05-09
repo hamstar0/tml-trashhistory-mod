@@ -14,11 +14,6 @@ namespace TrashHistory {
 				return;
 			}
 
-			int layerIdx = layers.FindIndex( layer => layer.Name.Equals("Vanilla: Mouse Over") );
-			if( layerIdx == -1 ) {
-				return;
-			}
-
 			//
 
 			var infoLayer = new LegacyGameInterfaceLayer(
@@ -48,8 +43,15 @@ namespace TrashHistory {
 
 			//
 
-			layers.Insert( layerIdx + 1, mouseLayer );
-			layers.Insert( layerIdx, infoLayer );
+			int mouseTextLayerIdx = layers.FindIndex( layer => layer.Name.Equals("Vanilla: Mouse Text") );
+			if( mouseTextLayerIdx != -1 ) {
+				layers.Insert( mouseTextLayerIdx, infoLayer );
+			}
+
+			int cursorLayerIdx = layers.FindIndex( layer => layer.Name.Equals("Vanilla: Cursor") );
+			if( cursorLayerIdx != -1 ) {
+				layers.Insert( cursorLayerIdx + 1, mouseLayer );
+			}
 		}
 
 

@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 namespace TrashHistory {
 	public partial class TrashHistoryPlayer : ModPlayer {
 		internal IList<Item> AttemptTrashPull( int amount ) {
-			IList<Item> grabbed = new List<Item>( amount );
+			IList<Item> pulledItems = new List<Item>( amount );
 
 			for( int i=0; i<amount; i++ ) {
 				if( this.TrashStore.Count <= 0 ) {
@@ -20,15 +20,39 @@ namespace TrashHistory {
 
 				int storedSlotIdx = this.IsTrashStacked ? this.TrashStore.Count - 1 : 0;
 
-				grabbed.Add( this.TrashStore[storedSlotIdx] );
+				pulledItems.Add( this.TrashStore[storedSlotIdx] );
 
 				//
 
 				this.TrashStore.RemoveAt( storedSlotIdx );
 			}
 
-			return grabbed;
+			//
+
+			if( this.TrashStore.Count == 0 ) {
+				bool hasTrashItem = this.player.trashItem?.active == true && !this.player.trashItem.IsAir;
+
+				if( pulledItems.Count < amount ) {
+					if( hasTrashItem ) {
+						pulledItems.Add( this.player.trashItem );
+
+						this.player.trashItem = new Item();
+
+						hasTrashItem = false;
+					}
+				}
+
+				if( !hasTrashItem ) {
+					this.LastSeenTrashSlotItem = null;
+				}
+			}
+
+			//
+
+			return pulledItems;
 		}
+
+		////
 
 		private bool AttemptTrashStore( Item item ) {
 			return this.AttemptTrashStore( new Item[] { item } );
@@ -53,14 +77,6 @@ namespace TrashHistory {
 			//
 
 			IList<Item> pulledItems = this.AttemptTrashPull( grabAmt );
-
-			if( this.TrashHistoryCount == 0 && pulledItems.Count < grabAmt ) {
-				if( this.player.trashItem?.active == true && !this.player.trashItem.IsAir ) {
-					pulledItems.Add( this.player.trashItem );
-
-					this.player.trashItem = new Item();
-				}
-			}
 
 			//
 

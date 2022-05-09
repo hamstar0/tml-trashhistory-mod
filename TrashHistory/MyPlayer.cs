@@ -17,6 +17,10 @@ namespace TrashHistory {
 
 		private bool IsTrashStacked = true;
 
+		////
+
+		private Item LastSeenTrashSlotItem = null;
+
 
 
 		////////////////

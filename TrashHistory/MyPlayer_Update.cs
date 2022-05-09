@@ -20,37 +20,36 @@ namespace TrashHistory {
 
 		////////////////
 
-		 private Item _PrevSeenTrashItem = null;
-
 		private void UpdateTrashState() {
 			bool hasTrashItem = this.player.trashItem?.active == true && !this.player.trashItem.IsAir;
 
-			if( this._PrevSeenTrashItem == null ) {
+			if( this.LastSeenTrashSlotItem == null ) {
 				if( hasTrashItem ) {
-					this._PrevSeenTrashItem = this.player.trashItem;
+					this.LastSeenTrashSlotItem = this.player.trashItem;
 				}
 			}
 
-			// Store trash slot-destroyed item
-			if( hasTrashItem && this.player.trashItem != this._PrevSeenTrashItem ) {
-				if( this.AttemptTrashStore(this._PrevSeenTrashItem) ) {
+			// Add trash slot-destroyed item to player's trash history
+			if( hasTrashItem && this.player.trashItem != this.LastSeenTrashSlotItem ) {
+				if( this.AttemptTrashStore(this.LastSeenTrashSlotItem) ) {
 					TrashHistoryMod.Instance.AddTrashAlertPopup_Local();
 
 					//
 
-					this._PrevSeenTrashItem = this.player.trashItem;
+					this.LastSeenTrashSlotItem = this.player.trashItem;
 				}
 			}
 
-			// Replenish trash slot with stored items
+			// Replenish any empty trash slot with item pulled from trash history
 			if( !hasTrashItem ) {
 				IList<Item> pulledTrash = this.AttemptTrashPull( 1 );
 
 				if( pulledTrash.Count > 0 ) {
 					this.player.trashItem = pulledTrash[0];
+
 					hasTrashItem = true;
 
-					this._PrevSeenTrashItem = pulledTrash[0];
+					this.LastSeenTrashSlotItem = pulledTrash[0];
 				}
 			}
 		}

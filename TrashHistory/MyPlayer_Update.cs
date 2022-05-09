@@ -31,9 +31,8 @@ namespace TrashHistory {
 				}
 			}
 
-			// Item has been trashed
+			// Store trash slot-destroyed item
 			if( hasTrashItem && this.player.trashItem != this._PrevSeenTrashItem ) {
-Main.NewText( "Trashed a perfectly good " + this.player.trashItem.HoverName );
 				if( this.AttemptTrashStore(this._PrevSeenTrashItem) ) {
 					TrashHistoryMod.Instance.AddTrashAlertPopup_Local();
 
@@ -43,12 +42,15 @@ Main.NewText( "Trashed a perfectly good " + this.player.trashItem.HoverName );
 				}
 			}
 
-			// Replenish trash slot with reserve items
+			// Replenish trash slot with stored items
 			if( !hasTrashItem ) {
 				IList<Item> pulledTrash = this.AttemptTrashPull( 1 );
 
 				if( pulledTrash.Count > 0 ) {
 					this.player.trashItem = pulledTrash[0];
+					hasTrashItem = true;
+
+					this._PrevSeenTrashItem = pulledTrash[0];
 				}
 			}
 		}

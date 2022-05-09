@@ -23,6 +23,8 @@ namespace TrashHistory {
 
 				grabbed.Add( this.TrashStore[storedSlotIdx] );
 
+				//
+
 				this.TrashStore.RemoveAt( storedSlotIdx );
 			}
 

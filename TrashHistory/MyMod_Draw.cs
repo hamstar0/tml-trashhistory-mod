@@ -58,7 +58,7 @@ namespace TrashHistory {
 
 			var myplayer = Main.LocalPlayer.GetModPlayer<TrashHistoryPlayer>();
 
-			int trashHistCount = myplayer.TrashHistory.Count;
+			int trashHistCount = myplayer.TrashHistoryCount;
 
 			Rectangle area = TrashHistoryMod.GetTrashSlotScreenArea_Local();
 

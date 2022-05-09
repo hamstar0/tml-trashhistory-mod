@@ -8,6 +8,11 @@ using Terraria.ModLoader.IO;
 
 namespace TrashHistory {
 	public partial class TrashHistoryPlayer : ModPlayer {
+		public int TrashHistoryCount => this.TrashStore.Count;
+
+
+		////////////////
+
 		private List<Item> TrashStore = new List<Item>();
 
 		private bool IsTrashStacked = true;

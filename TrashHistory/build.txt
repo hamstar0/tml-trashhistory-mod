@@ -1,5 +1,5 @@
 displayName = Trash History
 author = hamstar
-version = 0.4
+version = 1.0.0
 buildIgnore = *.csproj, *.user, *.bat, obj\*, bin\*, .vs\*, .git\*
 homepage = https://github.com/hamstar0/tml-trashhistory-mod

@@ -4,7 +4,6 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 
 namespace TrashHistory {
@@ -45,23 +44,38 @@ namespace TrashHistory {
 		////////////////
 
 		public void AttemptTrashPullIntoInventory( int amount ) {
-			int emptySlots = this.player.inventory
+			int emptyInvSlots = this.player.inventory
 				.Take( this.player.inventory.Length - 1 )
 				.Count( i => i?.active != true || i?.IsAir == true );
 
-			int grabAmt = Math.Min( amount, emptySlots );
+			int grabAmt = Math.Min( amount, emptyInvSlots );
 
 			//
 
 			IList<Item> pulledItems = this.AttemptTrashPull( grabAmt );
 
+			if( this.TrashHistoryCount == 0 && pulledItems.Count < grabAmt ) {
+				if( this.player.trashItem?.active == true && !this.player.trashItem.IsAir ) {
+					pulledItems.Add( this.player.trashItem );
+
+					this.player.trashItem = new Item();
+				}
+			}
+
+			//
+
+			// Place pulled items into the world
 			foreach( Item pulledItem in pulledItems.ToArray() ) {
 				int emptyMainItemIdx = Array.FindIndex( Main.item, i => i?.active != true || i.IsAir );
 				if( emptyMainItemIdx == -1 ) {
 					break;
 				}
 
+				//
+
 				Main.item[ emptyMainItemIdx ] = pulledItem;
+
+				pulledItem.Center = this.player.MountedCenter;
 
 				//
 
@@ -75,9 +89,7 @@ namespace TrashHistory {
 			}
 
 			// Return spilled items
-			foreach( Item pulledItem in pulledItems ) {
-				this.AttemptTrashStore( pulledItems );
-			}
+			this.AttemptTrashStore( pulledItems );
 		}
 	}
 }

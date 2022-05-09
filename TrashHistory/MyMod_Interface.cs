@@ -1,6 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameInput;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 
@@ -21,17 +25,18 @@ namespace TrashHistory {
 
 			//
 
-			var myplayer = Main.LocalPlayer.GetModPlayer<TrashHistoryPlayer>();
+			//if( Main.mouseLeftRelease && Main.mouseLeft ) {
+			//	bool hasTrashItem = Main.LocalPlayer.trashItem?.active == true && !Main.LocalPlayer.trashItem.IsAir;
+			//	bool hasMouseItem = Main.mouseItem?.active == true && !Main.mouseItem.IsAir;
+			//
+			//	if( !hasTrashItem && !hasMouseItem ) {
+			//		myplayer.AttemptTrashGrab();
+			//	}
+			//}
+			if( Main.mouseRightRelease && Main.mouseRight ) {
+				var myplayer = Main.LocalPlayer.GetModPlayer<TrashHistoryPlayer>();
 
-			if( Main.mouseLeftRelease && Main.mouseLeft ) {
-				bool hasTrashItem = Main.LocalPlayer.trashItem?.active == true && !Main.LocalPlayer.trashItem.IsAir;
-				bool hasMouseItem = Main.mouseItem?.active == true && !Main.mouseItem.IsAir;
-
-				if( !hasTrashItem && !hasMouseItem ) {
-					myplayer.AttemptTrashGrab();
-				}
-			} else if( Main.mouseRightRelease && Main.mouseRight ) {
-				myplayer.AttemptTrashGrabBulk();
+				myplayer.AttemptTrashPullIntoInventory( 10 );
 			}
 		}
 	}

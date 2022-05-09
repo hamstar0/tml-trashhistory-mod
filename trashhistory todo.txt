@@ -3,9 +3,9 @@ v2
 v1
 -	Implement config (capacity limit)
 -	Implement item extractions
+
+
 -	Pull trash items from trash slot directly into trash
-
-
 -	Animate hover fx when allowed to withdraw items
 -	Display trashed item popup
 -	Display trash item count

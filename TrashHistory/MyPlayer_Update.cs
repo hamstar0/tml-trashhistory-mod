@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 
 namespace TrashHistory {
@@ -21,18 +20,36 @@ namespace TrashHistory {
 
 		////////////////
 
+		 private Item _PrevSeenTrashItem = null;
+
 		private void UpdateTrashState() {
-			if( this.player.trashItem?.active == true && !this.player.trashItem.IsAir ) {
+			bool hasTrashItem = this.player.trashItem?.active == true && !this.player.trashItem.IsAir;
+
+			if( this._PrevSeenTrashItem == null ) {
+				if( hasTrashItem ) {
+					this._PrevSeenTrashItem = this.player.trashItem;
+				}
+			}
+
+			// Item has been trashed
+			if( hasTrashItem && this.player.trashItem != this._PrevSeenTrashItem ) {
 Main.NewText( "Trashed a perfectly good " + this.player.trashItem.HoverName );
-				this._TrashHistory.Add( this.player.trashItem );
+				if( this.AttemptTrashStore(this._PrevSeenTrashItem) ) {
+					TrashHistoryMod.Instance.AddTrashAlertPopup_Local();
 
-				//
+					//
 
-				TrashHistoryMod.Instance.AddTrashAlertPopup_Local( this.player.trashItem );
+					this._PrevSeenTrashItem = this.player.trashItem;
+				}
+			}
 
-				//
+			// Replenish trash slot with reserve items
+			if( !hasTrashItem ) {
+				IList<Item> pulledTrash = this.AttemptTrashPull( 1 );
 
-				this.player.trashItem = new Item();
+				if( pulledTrash.Count > 0 ) {
+					this.player.trashItem = pulledTrash[0];
+				}
 			}
 		}
 	}

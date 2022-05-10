@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -70,6 +71,10 @@ namespace TrashHistory {
 					TagCompound itemTag = tag.GetCompound( "trash_item" );
 
 					this.player.trashItem = ItemIO.Load( itemTag );
+
+					if( Main.netMode == NetmodeID.MultiplayerClient ) {
+						Main.clientPlayer.trashItem = this.player.trashItem;
+					}
 				}
 			}
 
@@ -102,6 +107,27 @@ namespace TrashHistory {
 			//
 
 			return tag;
+		}
+
+
+		////////////////
+
+		public override void PreUpdate() {
+			if( this.player.whoAmI == Main.myPlayer && !this.player.dead ) {
+				this.UpdateTrashState();
+			}
+		}
+
+		public override void UpdateAutopause() {
+			if( this.player.whoAmI == Main.myPlayer && !this.player.dead ) {
+				this.UpdateTrashState();
+			}
+		}
+
+		public override void UpdateDead() {
+			if( this.player.whoAmI == Main.myPlayer ) {
+				this.UpdateTrashStateDead_If();
+			}
 		}
 	}
 }

@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 namespace TrashHistory {
 	public partial class TrashHistoryPlayer : ModPlayer {
 		internal IList<Item> AttemptTrashPull( int amount ) {
-			IList<Item> pulledItems = new List<Item>( amount );
+			IList<Item> pulledItems = new List<Item>();
 
 			for( int i=0; i<amount; i++ ) {
 				if( this.TrashStore.Count <= 0 ) {
@@ -18,7 +18,9 @@ namespace TrashHistory {
 
 				//
 
-				int storedSlotIdx = this.IsTrashStacked ? this.TrashStore.Count - 1 : 0;
+				int storedSlotIdx = this.IsTrashStacked
+					? this.TrashStore.Count - 1
+					: 0;
 
 				pulledItems.Add( this.TrashStore[storedSlotIdx] );
 
@@ -38,6 +40,10 @@ namespace TrashHistory {
 
 						this.player.trashItem = new Item();
 
+						if( Main.netMode == NetmodeID.MultiplayerClient ) {
+							Main.clientPlayer.trashItem = this.player.trashItem;
+						}
+
 						hasTrashItem = false;
 					}
 				}
@@ -55,11 +61,7 @@ namespace TrashHistory {
 		////
 
 		private bool AttemptTrashStore( Item item ) {
-			return this.AttemptTrashStore( new Item[] { item } );
-		}
-
-		private bool AttemptTrashStore( IEnumerable<Item> items ) {
-			this.TrashStore.AddRange( items );
+			this.TrashStore.Add( item );
 
 			return true;
 		}
@@ -105,7 +107,9 @@ namespace TrashHistory {
 			}
 
 			// Return spilled items
-			this.AttemptTrashStore( pulledItems );
+			foreach( Item pulledItem in pulledItems ) {
+				this.AttemptTrashStore( pulledItem );	// TODO Handle `false` condition
+			}
 		}
 	}
 }

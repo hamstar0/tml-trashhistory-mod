@@ -45,5 +45,17 @@ namespace TrashHistory {
 
 			return new Rectangle( trashScrLeft, trashScrTop, trashScrWidth, trashScrHeight );
 		}
+
+
+		public static int GetTrashNetIndex( Player player ) {
+			return 58
+				+ player.armor.Length
+				+ player.dye.Length
+				+ player.miscEquips.Length
+				+ player.miscDyes.Length
+				+ player.bank.item.Length
+				+ player.bank2.item.Length
+				+ 1;
+		}
 	}
 }

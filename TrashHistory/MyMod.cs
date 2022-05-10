@@ -1,6 +1,8 @@
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameInput;
 using Terraria.ModLoader;
 
 
@@ -57,5 +59,11 @@ namespace TrashHistory {
 				+ player.bank2.item.Length
 				+ 1;
 		}
+
+
+
+		////////////////
+
+		public bool IsHoldingShift { get; internal set; }
 	}
 }

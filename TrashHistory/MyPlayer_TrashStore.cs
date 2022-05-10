@@ -8,6 +8,25 @@ using Terraria.ModLoader;
 
 namespace TrashHistory {
 	public partial class TrashHistoryPlayer : ModPlayer {
+		internal void ClearTrashHistory() {
+			this.TrashStore.Clear();
+
+			this.LastSeenTrashSlotItem = null;
+
+			//
+			
+			this.player.trashItem = new Item();
+
+			if( this.player.whoAmI == Main.myPlayer ) {
+				if( Main.netMode == NetmodeID.MultiplayerClient ) {
+					Main.clientPlayer.trashItem = this.player.trashItem;
+				}
+			}
+		}
+
+
+		////
+
 		internal IList<Item> AttemptTrashPull( int amount ) {
 			IList<Item> pulledItems = new List<Item>();
 

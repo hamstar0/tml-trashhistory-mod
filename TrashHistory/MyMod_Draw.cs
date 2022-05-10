@@ -19,12 +19,17 @@ namespace TrashHistory {
 			var infoLayer = new LegacyGameInterfaceLayer(
 				$"{this.DisplayName}: Trash Info",
 				() => {
-					if( !Main.gameMenu ) {
-						this.HandleInterface_Local();
-
-						this.DrawTrashStats_If();
-						this.DrawTrashAlertPopups();
+					if( Main.gameMenu ) {
+						return true;
 					}
+
+					Rectangle area = TrashHistoryMod.GetTrashSlotScreenArea_Local();
+
+					this.DrawTrashStats_If( area );
+					this.DrawTrashInteractLabels_If( area );
+
+					this.DrawTrashAlertPopups();
+
 					return true;
 				},
 				InterfaceScaleType.Game
@@ -33,9 +38,14 @@ namespace TrashHistory {
 			var mouseLayer = new LegacyGameInterfaceLayer(
 				$"{this.DisplayName}: Mouse Icon",
 				() => {
-					if( !Main.gameMenu ) {
-						this.DrawMouseIcon_If();
+					if( Main.gameMenu ) {
+						return true;
 					}
+
+					Rectangle area = TrashHistoryMod.GetTrashSlotScreenArea_Local();
+
+					this.DrawMouseIcon_If( area );
+
 					return true;
 				},
 				InterfaceScaleType.Game
@@ -57,7 +67,7 @@ namespace TrashHistory {
 
 		////////////////
 
-		private void DrawTrashStats_If() {
+		private void DrawTrashStats_If( Rectangle area ) {
 			if( !Main.playerInventory ) {
 				return;
 			}
@@ -67,8 +77,6 @@ namespace TrashHistory {
 			var myplayer = Main.LocalPlayer.GetModPlayer<TrashHistoryPlayer>();
 
 			int trashHistCount = myplayer.TrashHistoryCount;
-
-			Rectangle area = TrashHistoryMod.GetTrashSlotScreenArea_Local();
 
 			string text = $"{trashHistCount} items";
 
@@ -90,16 +98,62 @@ namespace TrashHistory {
 				textColor: new Color( 255, 224, 96 ),
 				borderColor: Color.Black,
 				origin: dim * 0.5f,
-				scale: 0.6f	//canHoverAlert ? 0.7f : 0.6f
+				scale: 0.6f //canHoverAlert ? 0.7f : 0.6f
 			);
+		}
+
+		private void DrawTrashInteractLabels_If( Rectangle area ) {
+			if( !Main.playerInventory ) {
+				return;
+			}
+
+			//
+
+			Vector2 shiftDim = Main.fontMouseText.MeasureString( "+shift" );
+			float shiftScale = 0.6f;
+			float pulse = (float)Main.mouseTextColor / 255f;
+
+			//
+
+			Utils.DrawBorderStringFourWay(
+				sb: Main.spriteBatch,
+				font: Main.fontMouseText,
+				text: this.IsHoldingShift
+					? "+shift"
+					: "-shift",
+				x: area.Center.X,
+				y: area.Bottom - (shiftDim.Y * 0.5f * shiftScale),
+				textColor: this.IsHoldingShift
+					? Color.White * pulse
+					: Color.White * 0.35f,
+				borderColor: this.IsHoldingShift
+					? Color.Black * pulse
+					: Color.Black * 0.35f,
+				origin: shiftDim * 0.5f,
+				scale: shiftScale
+			);
+
+			//
+
+			if( this.IsHoldingShift && area.Contains(Main.mouseX, Main.mouseY) ) {
+				Utils.DrawBorderStringFourWay(
+					sb: Main.spriteBatch,
+					font: Main.fontMouseText,
+					text: "Shift + Left Click empties trash history",
+					x: Main.mouseX + 20,
+					y: Main.mouseY + 8,
+					textColor: Color.White * pulse,
+					borderColor: Color.Black * pulse,
+					origin: default,
+					scale: 1f
+				);
+			}
 		}
 
 
 		////////////////
 
-		private void DrawMouseIcon_If() {
-			Rectangle area = TrashHistoryMod.GetTrashSlotScreenArea_Local();
-
+		private void DrawMouseIcon_If( Rectangle area ) {
 			if( !area.Contains(Main.mouseX, Main.mouseY) ) {
 				return;
 			}

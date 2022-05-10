@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -128,6 +129,14 @@ namespace TrashHistory {
 			if( this.player.whoAmI == Main.myPlayer ) {
 				this.UpdateTrashStateDead_If();
 			}
+		}
+
+
+		////////////////
+
+		public override void ProcessTriggers( TriggersSet triggersSet ) {
+			TrashHistoryMod.Instance.IsHoldingShift = triggersSet.SmartSelect;
+//Main.NewText("keys: "+string.Join(", ", triggersSet.KeyStatus.Where(kv=>kv.Value).Select(kv=>kv.Key)) );
 		}
 	}
 }

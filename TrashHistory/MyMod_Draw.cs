@@ -32,7 +32,7 @@ namespace TrashHistory {
 
 					return true;
 				},
-				InterfaceScaleType.Game
+				InterfaceScaleType.UI
 			);
 
 			var mouseLayer = new LegacyGameInterfaceLayer(
@@ -48,7 +48,7 @@ namespace TrashHistory {
 
 					return true;
 				},
-				InterfaceScaleType.Game
+				InterfaceScaleType.UI
 			);
 
 			//

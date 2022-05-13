@@ -20,7 +20,7 @@ namespace TrashHistory {
 
 			//
 
-			Rectangle area = TrashHistoryMod.GetTrashSlotScreenArea_Local();
+			Rectangle area = TrashHistoryMod.GetTrashSlotScreenArea_Local( true );
 
 			if( !area.Contains(Main.mouseX, Main.mouseY) ) {
 				return;

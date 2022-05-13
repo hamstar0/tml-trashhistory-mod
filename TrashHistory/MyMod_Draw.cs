@@ -23,7 +23,7 @@ namespace TrashHistory {
 						return true;
 					}
 
-					Rectangle area = TrashHistoryMod.GetTrashSlotScreenArea_Local();
+					Rectangle area = TrashHistoryMod.GetTrashSlotScreenArea_Local( false );
 
 					this.DrawTrashStats_If( area );
 					this.DrawTrashInteractLabels_If( area );
@@ -42,7 +42,7 @@ namespace TrashHistory {
 						return true;
 					}
 
-					Rectangle area = TrashHistoryMod.GetTrashSlotScreenArea_Local();
+					Rectangle area = TrashHistoryMod.GetTrashSlotScreenArea_Local( false );
 
 					this.DrawMouseIcon_If( area );
 

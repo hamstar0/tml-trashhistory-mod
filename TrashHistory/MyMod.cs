@@ -21,12 +21,13 @@ namespace TrashHistory {
 
 		////////////////
 
-		public static Rectangle GetTrashSlotScreenArea_Local() {
+		public static Rectangle GetTrashSlotScreenArea_Local( bool zoomUI ) {
 			Player plr = Main.LocalPlayer;
 			float invScale = 0.85f;
+			float zoom = zoomUI ? Main.UIScale : 1f;
 
-			int trashScrLeft = 448;
-			int trashScrTop = 258;
+			int trashScrLeft = (int)(448f * zoom);
+			int trashScrTop = (int)(258f * zoom);
 
 			if( (plr.chest != -1 || Main.npcShop > 0) && !Main.recBigList ) {
 				trashScrTop += 168;
@@ -42,8 +43,8 @@ namespace TrashHistory {
 
 			//
 
-			int trashScrWidth = (int)((float)Main.inventoryBackTexture.Width * invScale);
-			int trashScrHeight = (int)((float)Main.inventoryBackTexture.Height * invScale);
+			int trashScrWidth = (int)((float)Main.inventoryBackTexture.Width * invScale * zoom);
+			int trashScrHeight = (int)((float)Main.inventoryBackTexture.Height * invScale * zoom);
 
 			return new Rectangle( trashScrLeft, trashScrTop, trashScrWidth, trashScrHeight );
 		}

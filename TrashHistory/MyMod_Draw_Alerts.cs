@@ -68,7 +68,7 @@ namespace TrashHistory {
 		////////////////
 
 		public void AddTrashAlertPopup_Local() {
-			Rectangle area = TrashHistoryMod.GetTrashSlotScreenArea_Local();
+			Rectangle area = TrashHistoryMod.GetTrashSlotScreenArea_Local( false );
 			int x = Main.rand.Next( area.Left+3, area.Right-3 );
 			int y = Main.rand.Next( area.Top+3, area.Bottom-3 );
 

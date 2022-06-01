@@ -168,7 +168,7 @@ namespace TrashHistory {
 
 			//
 
-			Texture2D mouseTex = ModContent.GetTexture( "FindableManaCrystals/MouseRightIcon" );
+			Texture2D mouseTex = ModContent.GetTexture( "TrashHistory/MouseRightIcon" );
 
 			Vector2 pos = Main.MouseScreen + new Vector2( -32f, -16f );
 
